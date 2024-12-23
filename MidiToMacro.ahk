@@ -5,6 +5,9 @@ Persistent()
 
 #Include lib\Config.ahk
 #Include lib\Gui.ahk
+#include lib\OSD.ahk
+#include lib\Media.ahk
+#include lib\ImagePut.ahk
 
 MaybeOpenMidiInput() {
 	global appConfig, currentMidiInputDeviceIndex
@@ -30,6 +33,7 @@ Main() {
 	A_TrayMenu.Add() ; Add a menu separator line
 	A_TrayMenu.Add("Show on Startup", ToggleShowOnStartup)
 	A_TrayMenu.Add("MIDI Monitor", ShowMidiMonitor)
+	A_TrayMenu.Add("MIDI to Macro Settings", ShowMidiSettings)
 	ReadConfig()
 	wasMidiOpened := MaybeOpenMidiInput()
 	if (appConfig.showOnStartup) {
@@ -40,7 +44,9 @@ Main() {
 
 	if (!wasMidiOpened || appConfig.showOnStartup) {
 		ShowMidiMonitor()
+		ShowMidiSettings()
 	}
+	UpdateOnStart()
 }
 
 Main()
